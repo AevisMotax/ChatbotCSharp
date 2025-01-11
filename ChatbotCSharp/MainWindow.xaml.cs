@@ -20,5 +20,39 @@ namespace ChatbotCSharp
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string message = UserInput.Text;
+            DisplayMessage("User: " + message);
+
+            string bot_message = getResponse(message);
+            DisplayMessage("" + bot_message);
+
+            UserInput.Clear();
+            
+        }
+
+        private void DisplayMessage(string m) 
+        { 
+            ChatTextBox.AppendText(m+ "\n");
+            ChatTextBox.ScrollToEnd();
+        }
+
+        private String getResponse(string m) 
+        {
+            return "You just said: " + m;
+
+        }
+
+        private void UserInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void ChatTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

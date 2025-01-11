@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
 
+        <RichTextBox x:Name="ChatTextBox" Grid.Row="0" IsReadOnly="True" 
+                     VerticalScrollBarVisibility="Auto"  FontFamily="Times New Roman" 
+                     FontWeight="Bold" FontSize="14" TextChanged="ChatTextBox_TextChanged"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" >
+            <TextBox x:Name="UserInput" TextWrapping="Wrap" Text="Place your input" Width="666" Height="25" TextChanged="UserInput_TextChanged"/>
+            <Button Content="Send" Click="Button_Click" Width="118" FontFamily="Calibri" />
+        </StackPanel>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using ChatbotCSharp.Service;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,18 +17,33 @@ namespace ChatbotCSharp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ChatService chatService;
+
         public MainWindow()
         {
             InitializeComponent();
+            chatService = new ChatService();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             string message = UserInput.Text;
             DisplayMessage("User: " + message);
 
-            string bot_message = getResponse(message);
-            DisplayMessage("" + bot_message);
+            try
+            {
+                // Await the response from the OpenAI service
+                //string bot_message = getResponse(message);
+                string bot_message = await chatService.GetReponseFromOpenAI(message);
+
+                // Display the bot's response
+                DisplayMessage("Bot: " + bot_message);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions and display an error message
+                DisplayMessage($"Error: {ex.Message}");
+            }
 
             UserInput.Clear();
             
@@ -54,5 +70,6 @@ namespace ChatbotCSharp
         {
 
         }
+
     }
 }

@@ -54,17 +54,15 @@ namespace ChatbotCSharp.Service
             //APIAuthentication aPIAuthentication = new APIAuthentication(key);
 
             //OpenAIClient openAI = new OpenAIClient(key);
-            ChatClient client = new(model: "text-davinci-003", apiKey: key);
-
+            //ChatClient client = new(model: "gpt-3.5-turbo", apiKey: key);
 
             string prompt = input;
-            //string model = "text-davinci-003";
             string model = "gpt-3.5-turbo";
             var Messages = new[] 
             {
                new { role = "user", content = input }
             };
-            int max_tokens = 50;
+            int max_tokens = 1;
 
 
             var requestBody = new 
@@ -82,24 +80,24 @@ namespace ChatbotCSharp.Service
 
             try
             {
-                OpenAI.Chat.ChatCompletion completioin = (client.CompleteChat(input));
+                //OpenAI.Chat.ChatCompletion completioin = (client.CompleteChat(input));
+                //return completioin?.Content[0]?.Text ?? "No response";
 
-                return completioin?.Content[0]?.Text ?? "No response";
-                //using (var requestMessage = new
-                //    HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions")) 
-                //{ 
-                //    requestMessage.Headers.
-                //        Add("Authorization", $"Bearer {key}");
-                //    requestMessage.Content = content;
+                using (var requestMessage = new
+                    HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions"))
+                {
+                    requestMessage.Headers.
+                        Add("Authorization", $"Bearer {this.key}");
+                    requestMessage.Content = content;
 
-                //    var response= await httpClient.SendAsync(requestMessage);
-                //    response.EnsureSuccessStatusCode();
+                    var response = await httpClient.SendAsync(requestMessage);
+                    response.EnsureSuccessStatusCode();
 
-                //    var responseBody = await response.Content.ReadAsStringAsync();
-                //    var responseJson = JObject.Parse(responseBody);
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var responseJson = JObject.Parse(responseBody);
 
-                //    return responseJson["choices"]?[0]?["text"]?.ToString()?.Trim() ?? "No response";
-                //}               
+                    return responseJson["choices"]?[0]?["text"]?.ToString()?.Trim() ?? "No response";
+                }
 
             }
             catch (Exception ex) 
